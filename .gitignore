@@ -2,3 +2,4 @@
 .terrafrorm/
 *.tfstate
 *.tfstate*
+.terraform  

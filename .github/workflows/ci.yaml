@@ -21,6 +21,10 @@ jobs:
         run: |
           docker build -t devops-project:${{ env.SHORT_SHA }} .  # Fixed: "SHORT_SHA" not "SHOET_SHA"
 
+      - name: Tag docker image
+        run: |
+          docker tag devops-project:${{ env.SHORT_SHA }} bigstan/devops-project:${{ env.SHORT_SHA }}
+
       - name: Login to DockerHub
         run: |
           echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
