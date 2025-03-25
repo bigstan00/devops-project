@@ -5,15 +5,14 @@ metadata:
   namespace: argocd
 spec:
   project: default
-  source: 
-    repoURL : "https://github.com/bigstan00/devops-project"
+  source:
+    repoURL: "https://github.com/bigstan00/devops-project"
     targetRevision: HEAD
     path: devops-project-time-app
   destination:
     server: "https://kubernetes.default.svc"
-    namespace:default
+    namespace: default  # Fixed: Space after colon
   syncPolicy:
     automated:
       prune: true
       selfHeal: true
-
