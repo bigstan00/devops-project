@@ -3,4 +3,4 @@ WORKDIR /app
 COPY app.py .
 RUN pip install flask
 EXPOSE 8080
-CMD ["phython" "python.py"]
+CMD ["python" "python.py"]
