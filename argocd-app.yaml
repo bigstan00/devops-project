@@ -1,20 +1,34 @@
-apiVersion: argoprj.io/v1alpha1
+apiVersion: argoproj.io/v1alpha1  # Fixed typo in "argoproj"
 kind: Application
 metadata:
   name: devops-project
   namespace: argocd
 spec:
   project: default
-  source: 
-    repoURL : "https://github.com/bigstan00/devops-project"
-    targetRevision: HEAD
+  source:
+    repoURL: "https://github.com/bigstan00/devops-project"
+    targetRevision: HEAD  # Consider pinning to a specific tag/branch
     path: devops-project-time-app
+    # Optional: Add directory recurse and kustomize/helm configs if needed
+    # directory:
+    #   recurse: true
+    # helm:
+    #   valueFiles:
+    #     - values.yaml
   destination:
     server: "https://kubernetes.default.svc"
-    namespace:default
+    namespace: default  # Fixed: Added space after colon
   syncPolicy:
     automated:
-      prune: true
-      selfHeal: true
-
-      
+      prune: true      # Automatically delete old resources
+      selfHeal: true   # Auto-correct drift
+      allowEmpty: false # Prevent empty applies
+    syncOptions:
+      - Validate=true  # Enable schema validation
+      - CreateNamespace=true # Auto-create ns if missing
+  # Optional health checks
+  healthChecks:
+    - apiVersion: v1
+      kind: Service
+      name: devops-project-time-app
+      namespace: default
