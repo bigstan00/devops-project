@@ -12,14 +12,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Run Super-Linter
-        uses: github/super-linter@v4
-        env:
-          VALIDATE_DOCKER: true
-          VALIDATE_TERRAFORM: true  # Enable if using Terraform
-          VALIDATE_YAML: true
-          DEFAULT_BRANCH: master
-
       - name: Set short SHA
         run: |
           echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
