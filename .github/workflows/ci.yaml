@@ -1,0 +1,30 @@
+---
+name: Pipeline
+
+on:
+  push:
+    branches:
+      - master  # Fixed: "master" not "master"
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest  # Fixed: "latest" not "lastest"
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Set short SHA
+        run: |
+          echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV  # Fixed: ${GITHUB_SHA} and closing )
+
+      - name: Build Docker image
+        run: |
+          docker build -t devops-project:${{ env.SHORT_SHA }} .  # Fixed: "SHORT_SHA" not "SHOET_SHA"
+
+      - name: Login to DockerHub
+        run: |
+          echo "${{ secrets.DOCKERHUB_TOKEN }}" | docker login -u "${{ secrets.DOCKERHUB_USERNAME }}" --password-stdin
+
+      - name: Push to DockerHub
+        run: |
+          docker push bigstan00/devops-project:${{ env.SHORT_SHA }}  # Fixed: Consistent image name and tag
