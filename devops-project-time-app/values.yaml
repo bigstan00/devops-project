@@ -1,6 +1,6 @@
 image:
   repository: bigstan00/devops-project
-  tag: 2a1633a
+  tag: f14230e
   pullPolicy: IfNotPresent
 service:
  type: ClusterIP
