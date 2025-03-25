@@ -19,7 +19,7 @@ jobs:
           VALIDATE_TERRAFORM: true  # Enable if using Terraform
           VALIDATE_YAML: true
           DEFAULT_BRANCH: master
-          
+
       - name: Set short SHA
         run: |
           echo "SHORT_SHA=$(echo ${GITHUB_SHA} | cut -c1-7)" >> $GITHUB_ENV
@@ -35,3 +35,16 @@ jobs:
       - name: Push to DockerHub
         run: |
           docker push bigstan00/devops-project:${{ env.SHORT_SHA }}
+      
+      - name: configure git author
+        run: |
+          git config --local user.email "sdakwoji@gmail.com"
+          git config --local user.name "bigstan00"
+
+
+      - name: Update Helm chart with new imagge tag
+        run: |
+         sed -i "s/tag:.*/tag: ${{ env.SHORT_SHA }}/" ./devops-project-time-app/values.yaml
+         git add./devops-project-time-app/values.yaml
+         git commit -m "updated image tag to ${{ env.SHORT_SHA}}"
+         git push 
