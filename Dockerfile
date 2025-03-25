@@ -8,4 +8,4 @@ RUN pip install --no-cache-dir flask==2.3.2
 COPY app.py .
 
 EXPOSE 8080
-CMD ["python", "app.py"]
+CMD [ "python", "app.py" ]
